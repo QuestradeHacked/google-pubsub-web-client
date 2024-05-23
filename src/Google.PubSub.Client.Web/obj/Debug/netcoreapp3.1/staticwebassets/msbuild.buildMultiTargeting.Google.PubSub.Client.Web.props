@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/Google.PubSub.Client.Web.props" />
+</Project>

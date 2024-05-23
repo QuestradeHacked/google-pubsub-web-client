@@ -1,0 +1,27 @@
+﻿@model Google.PubSub.Client.Web.Controllers.ProjectListModel
+@{
+    ViewData["Title"] = "Project list";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Projects</li>
+    </ol>
+</nav>
+
+<div>
+    <a asp-controller="Project" asp-action="Create" class="btn btn-success">Create project</a>
+</div>
+
+<div class="text-center">
+    <h2 class="display-4">Projects</h2>
+</div>
+
+<div>
+    <div class="list-group">
+        @foreach (var projectId in Model.Projects)
+        {
+            <a class="list-group-item list-group-item-action" asp-controller="Topic" asp-action="List" asp-route-projectId="@projectId">@projectId</a>
+        }
+    </div>
+</div>

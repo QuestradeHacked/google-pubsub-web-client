@@ -1,0 +1,33 @@
+@model Google.PubSub.Client.Web.Controllers.TopicCreateModel
+
+@{
+    ViewBag.Title = "Create new topic";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Project" asp-action="List">Projects</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Topic" asp-action="List" asp-route-projectId="@Model.ProjectId">Topics</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Create new Topic</li>
+    </ol>
+</nav>
+
+<div class="text-center">
+    <h2 class="display-4">Create new topic</h2>
+</div>
+
+<div>
+    <form method="post" enctype="multipart/form-data" asp-controller="Topic" asp-action="Create">
+        <div class="form-group">
+            <label for="topicName">Topic name</label>
+            <input type="text" class="form-control" id="topicName" name="topicName" placeholder="Enter topic name">
+        </div>
+        <input type="hidden" value="@Model.ProjectId" id="projectId" name="projectId"/>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>

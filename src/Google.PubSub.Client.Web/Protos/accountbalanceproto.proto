@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package accountbalanceproto;
+
+import "google/protobuf/timestamp.proto";
+
+message BalanceAmount
+{
+	double cad = 1;
+	double usd = 2;
+	double combined_cad = 3;
+	double combined_usd = 4;
+}
+
+message MarginPower
+{
+	BalanceAmount maintenance_excess = 1;
+	BalanceAmount buying_power = 2;
+	string linked_account_uuid = 3;
+}
+
+message BalanceRecord
+{
+	BalanceAmount cash                     = 1;
+	BalanceAmount market_value             = 2;
+	BalanceAmount equity                   = 3;
+	BalanceAmount maintenance_excess       = 4;
+	BalanceAmount margin_power_maintenance_excess = 5;
+	BalanceAmount buying_power             = 6;
+	BalanceAmount open_pnl                 = 7;
+	BalanceAmount closed_pnl               = 8;
+	BalanceAmount day_open_pnl             = 9;
+	BalanceAmount day_closed_pnl           = 10;
+	MarginPower   margin_power             = 11;
+}
+
+message Balance
+{
+	string account_number = 1;
+	int64 account_id = 2;
+	enum BalanceType
+	{
+		UNSPECIFIED               = 0;
+		REAL_TIME                 = 1;
+		START_OF_DAY              = 2;
+		CLIENT_VIEW               = 3;
+		BOOK_KEEPING_START_OF_DAY = 4;
+	}
+	BalanceType balance_type = 3;
+	BalanceRecord balance = 4;
+	google.protobuf.Timestamp as_of_date_time = 5;
+	string account_uuid  = 6;
+}
+
+message Balances
+{
+	repeated Balance balances = 1;
+}

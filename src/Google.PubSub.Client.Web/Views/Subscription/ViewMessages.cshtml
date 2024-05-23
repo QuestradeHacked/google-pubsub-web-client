@@ -1,0 +1,72 @@
+@using Newtonsoft.Json
+@model Google.PubSub.Client.Web.Controllers.ViewMessageModel
+
+@{
+    ViewBag.Title = "View Messages";
+    var index = 0;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Project" asp-action="List">Projects</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Topic" asp-action="List" asp-route-projectId="@Model.ProjectId">Topics</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Topic" asp-action="Detail" asp-route-projectId="@Model.ProjectId" asp-route-topicName="@Model.TopicName">Topic Details</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Subscription Details</li>
+    </ol>
+</nav>
+
+<div class="text-center">
+    <h2 class="display-4">Subscription Details</h2>
+</div>
+
+<div>
+    <pre>@JsonConvert.SerializeObject(Model.Details, Formatting.Indented)</pre>
+</div>
+
+<div class="text-center">
+    <h2 class="display-4">Messages</h2>
+    <label>Click on each one to view message content.</label>
+</div>
+
+<div>
+    <a asp-controller="Subscription" asp-action="ViewMessages" asp-route-projectId="@Model.ProjectId" asp-route-topicName="@Model.TopicName" asp-route-subscriptionName="@Model.SubscriptionName" class="btn btn-primary">Pull</a>
+</div>
+
+<div class="accordion" id="messagesAccordion">
+
+    @foreach (var message in Model.Messages)
+    {
+        index++;
+        var headingId = $"heading{index}";
+        var collapseId = $"collapse{index}";
+        <div class="card">
+            <div class="card-header" id="@headingId">
+                <h5 class="mb-0">
+                    <button class="btn btn-link text-truncate" type="button" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId" style="max-width: calc(100% - 100px);">
+                        @message.MessageId | PublishedAt: @message.PublishedTime | @(!string.IsNullOrWhiteSpace(message.OrderingKey)? $"OrderKey: {message.OrderingKey}" : string.Empty) 
+                    </button>
+                    <form method="post" enctype="multipart/form-data" asp-controller="Subscription" asp-action="AcknowledgeMessage" class="float-right">
+                        <input type="hidden" value="@Model.ProjectId" id="projectId" name="projectId"/>
+                        <input type="hidden" value="@Model.TopicName" id="topicName" name="topicName"/>
+                        <input type="hidden" value="@Model.SubscriptionName" id="subscriptionName" name="subscriptionName"/>
+                        <input type="hidden" value="@message.AckId" id="ackId" name="ackId"/>
+
+                        <button class="btn btn-primary btn-sm" type="submit">Ack</button>
+                    </form>
+                </h5>
+            </div>
+
+            <div id="@collapseId" class="collapse" aria-labelledby="@headingId" data-parent="#messagesAccordion">
+                <div class="card-body">
+                    <pre>@message.Data</pre>
+                </div>
+            </div>
+        </div>
+    }
+</div>

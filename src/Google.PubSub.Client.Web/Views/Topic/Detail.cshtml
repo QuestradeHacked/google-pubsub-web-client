@@ -1,0 +1,26 @@
+@model Google.PubSub.Client.Web.Controllers.TopicDetailModel
+
+@{
+    ViewBag.Title = "Topic Details";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Project" asp-action="List">Projects</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Topic" asp-action="List" asp-route-projectId="@Model.ProjectId">Topics</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Topic Details</li>
+    </ol>
+</nav>
+
+<div>
+    <a asp-controller="Topic" asp-action="PublishMessage" asp-route-projectId="@Model.ProjectId" asp-route-topicName="@Model.TopicName" class="btn btn-primary">Publish message</a>
+    <a asp-controller="Subscription" asp-action="Create" asp-route-projectId="@Model.ProjectId" asp-route-topicName="@Model.TopicName" class="btn btn-success">Create new subscription</a>
+</div>
+<br/>
+<hr/>
+
+@await Component.InvokeAsync("SubscriptionList", new {projectId = Model.ProjectId, topicName = Model.TopicName})

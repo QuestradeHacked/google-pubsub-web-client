@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Google.PubSub.Client.Web
+build_property.ProjectDir = /Users/015756/Documents/Projects/google-pubsub-web-client/src/Google.PubSub.Client.Web/

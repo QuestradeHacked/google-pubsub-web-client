@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Google.PubSub.Client.Web", "src\Google.PubSub.Client.Web\Google.PubSub.Client.Web.csproj", "{3EA8D92A-A115-4FE0-AF56-2B3F1CEBE4DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B652A9A5-1F6F-403A-B378-1C2F395ADA97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{3A926A51-5955-4AD5-9464-85239B161190}"
+ProjectSection(SolutionItems) = preProject
+	docker-compose.yml = docker-compose.yml
+	README.md = README.md
+	CHANGELOG.md = CHANGELOG.md
+EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EA8D92A-A115-4FE0-AF56-2B3F1CEBE4DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA8D92A-A115-4FE0-AF56-2B3F1CEBE4DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA8D92A-A115-4FE0-AF56-2B3F1CEBE4DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA8D92A-A115-4FE0-AF56-2B3F1CEBE4DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3EA8D92A-A115-4FE0-AF56-2B3F1CEBE4DC} = {B652A9A5-1F6F-403A-B378-1C2F395ADA97}
+	EndGlobalSection
+EndGlobal

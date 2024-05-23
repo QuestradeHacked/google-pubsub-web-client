@@ -1,0 +1,29 @@
+@model object
+
+@{
+    ViewBag.Title = "Create Project";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Project" asp-action="List">Projects</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Create Project</li>
+    </ol>
+</nav>
+
+<div class="text-center">
+    <h2 class="display-4">Create new Project</h2>
+</div>
+
+<div>
+    <form method="post" enctype="multipart/form-data" asp-controller="Project" asp-action="Create">
+        <div class="form-group">
+            <label for="projectName">Project name</label>
+            <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Enter project name">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>

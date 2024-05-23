@@ -1,0 +1,114 @@
+@using Google.PubSub.Client.Web.Controllers
+@model Google.PubSub.Client.Web.Controllers.TopicDetailModel
+
+@{
+    ViewBag.Title = "Publish Message";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a asp-controller="Project" asp-action="List">Projects</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Topic" asp-action="List" asp-route-projectId="@Model.ProjectId">Topics</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Topic" asp-action="Detail" asp-route-projectId="@Model.ProjectId" asp-route-topicName="@Model.TopicName">Topic Details</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Publish Message</li>
+    </ol>
+</nav>
+
+<div class="text-center">
+    <h2 class="display-4">Publish message</h2>
+</div>
+
+<div>
+    <form method="post" enctype="multipart/form-data" asp-controller="Topic" asp-action="PublishMessage">
+
+        <div class="form-group">
+            <label>Encoding type</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="encoding" id="@string.Format($"encoding-type-{EncodingEnum.Json}")" value="@EncodingEnum.Json.ToString()" checked>
+                <label class="form-check-label" for="@string.Format($"encoding-type-{EncodingEnum.Json}")">
+                    @EncodingEnum.Json.ToString()
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="encoding" id="@string.Format($"encoding-type-{EncodingEnum.Proto}")" value="@EncodingEnum.Proto.ToString()">
+                <label class="form-check-label" for="@string.Format($"encoding-type-{EncodingEnum.Proto}")">
+                    @EncodingEnum.Proto.ToString()
+                </label>
+            </div>
+        </div>
+        <div class="form-group" id="protoGroup">
+            <label for="protoModel">Proto model</label>
+            <select class="form-control" id="protoModel" name="protoModel" required>
+                <option value="@ProtoModelEnum.Balances.ToString()">@ProtoModelEnum.Balances.ToString()</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Message ordering</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="useOrderKey" id="useOrderKeyNo" value="false" checked>
+                <label class="form-check-label" for="useOrderKeyNo">Message without order key</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="useOrderKey" id="useOrderKeyYes" value="true">
+                <label class="form-check-label" for="useOrderKeyYes">Message with order key</label>
+            </div>
+        </div>
+        <div class="form-group" id="orderKeyGroup">
+            <label for="protoModel">Order key</label>
+            <input class="form-control" id="orderKey" name="orderKey" />
+        </div>
+
+        <div class="form-group">
+            <label for="message">Message body</label>
+            <textarea class="form-control" id="message" name="message" placeholder="Type the message you want to publish to this topic." rows="18" required></textarea>
+        </div>
+
+        <input type="hidden" value="@Model.ProjectId" id="projectId" name="projectId"/>
+        <input type="hidden" value="@Model.TopicName" id="topicName" name="topicName"/>
+
+        <button type="submit" class="btn btn-primary">Publish</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            let encodingType = $('input[name="encoding"]:checked').val();
+            if (encodingType !== "Proto")
+                $("#protoGroup").hide();
+            $('input[name="encoding"]') // select the radio by its id
+                .change(function(){ // bind a function to the change event
+                    if( $(this).is(":checked") ){ // check if the radio is checked
+                        encodingType = $(this).val(); // retrieve the value
+                        if(encodingType === "Proto") {
+                            $("#protoGroup").show();
+                        }
+                        else {
+                            $("#protoGroup").hide();
+                        }
+                    }
+                });
+            
+            $('#useOrderKeyYes')
+                .change(function (){
+                    if ($(this).is(':checked')){
+                        $("#orderKeyGroup").show();
+                    }
+                });
+            $('#useOrderKeyNo')
+                .change(function (){
+                    if ($(this).is(':checked')){
+                        $("#orderKeyGroup").hide();
+                    }
+                })
+                .trigger('change');
+        });
+    </script>
+}

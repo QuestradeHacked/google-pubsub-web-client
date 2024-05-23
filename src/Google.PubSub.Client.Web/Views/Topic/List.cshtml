@@ -1,0 +1,51 @@
+@model Google.PubSub.Client.Web.Controllers.TopicListModel
+
+@{
+    ViewBag.Title = "Topic list";
+    int index = 0;
+}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Project" asp-action="List">Projects</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Topics</li>
+  </ol>
+</nav>
+
+<div>
+    <a class="btn btn-success" asp-controller="Topic" asp-action="Create" asp-route-projectId="@Model.ProjectId">Create topic</a>
+    <br/>
+    <hr/>
+    <div class="text-center">
+        <h2 class="display-4">Topics</h2>
+    </div>
+
+    <table class="table table-hover table-sm">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Topic</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var topic in Model.Topics)
+        {
+            index++;
+            <tr>
+                <th scope="row">@index</th>
+                <td>
+                    <a asp-controller="Topic" asp-action="Detail" asp-route-projectId="@Model.ProjectId" asp-route-topicName="@topic.Name">@topic.Name</a>
+                </td>
+                <td>
+                    <form method="post" enctype="multipart/form-data" asp-controller="Topic" asp-action="Delete">
+                        <input type="hidden" name="projectId" value="@Model.ProjectId"/>
+                        <input type="hidden" name="topicName" value="@topic.Name">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

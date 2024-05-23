@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  web:
+    container_name: pubsub_local_web_client
+    build: ./src/Google.PubSub.Client.Web/
+    depends_on:
+      - emulator
+    ports:
+      - 63420:80
+    environment:
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft=Warning
+      - Logging__LogLevel__Microsoft.Hosting.Lifetime=Warning
+      - PubSub__EmulatorHost=emulator:8681
+      - PubSub__Projects__0=qt-msa-local
+  emulator:
+    container_name: pubsub_local_emulator
+    image: messagebird/gcloud-pubsub-emulator:latest
+    platform: linux/amd64
+    ports:
+      - "8681:8681"
+    environment:
+      - PUBSUB_PROJECT1=qt-msa-local
